@@ -1,0 +1,21 @@
+name: autotests
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    name: Running test.
+    runs-on: ubuntu-latest
+    container: golang:1.22.3
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run Unit Tests
+        run: GOOS=linux GOARCH=amd64 go test -v ./... -count=1
+
+      - name: Vet
+        run: go vet ./...
